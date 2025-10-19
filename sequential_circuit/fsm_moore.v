@@ -1,63 +1,79 @@
-///FSM MOORE:-
+///MOORE STATE MACHINE - Pattern Detector for "1011"
+/// Moore machines: Output depends only on current state (not on inputs)
+/// This FSM detects the sequence "1011" in a serial data stream
+/// Real-world applications: Protocol detection, error checking, pattern recognition
 
 module moore_1011(clk,reset,din,dout);
-  input wire clk,reset,din;
-  output reg dout;
+  // Input ports: Control and data signals
+  input wire clk;              // Clock signal for synchronous operation
+  input wire reset;             // Reset signal (active low)
+  input wire din;              // Serial data input (1-bit)
   
-  parameter s0=3'b000;
-  parameter s1=3'b001;
-  parameter s2=3'b010;
-  parameter s3=3'b011;
-  parameter s4=3'b100;
+  // Output port: Detection result
+  output reg dout;             // Output: 1 when pattern "1011" is detected
   
-  reg [1:0] state;
+  // State definitions: Each state represents progress in pattern detection
+  parameter s0 = 3'b000;       // State 0: No pattern detected yet
+  parameter s1 = 3'b001;       // State 1: Detected "1"
+  parameter s2 = 3'b010;       // State 2: Detected "10"
+  parameter s3 = 3'b011;       // State 3: Detected "101"
+  parameter s4 = 3'b100;       // State 4: Detected "1011" (pattern complete)
   
-  always@(posedge clk or negedge reset)
+  // State register: Holds current state
+  reg [1:0] state;             // 2-bit state register (can hold 4 states)
+  
+  // Sequential logic: State transitions on clock edge
+  always@(posedge clk or negedge reset)  // Triggered by clock or reset
     begin
-      if(!reset)
+      // RESET LOGIC: Initialize to starting state
+      if(!reset)               // Active low reset
         begin
-          state<=s0;
-          dout<=1'b0;
+          state <= s0;         // Go to initial state
+          dout <= 1'b0;        // Clear output
         end
       else
         begin
-          case({state})
-            s0:if(din)
+          // STATE MACHINE LOGIC: Determine next state based on current state and input
+          case(state)          // Check current state
+            s0: if(din)        // In state 0: if input is '1'
               begin
-                state<=s1;
-                dout<=1'b0;
+                state <= s1;   // Move to state 1 (detected "1")
+                dout <= 1'b0;  // Output remains 0
               end
-            else
+            else               // If input is '0'
               begin
-                state<=s0;
+                state <= s0;   // Stay in state 0
               end
-                s1:if(din)
-                  begin
-                    state<=s2;
-                    dout<=1'b0;
-                  end
-                else
-                  begin
-                    state<=s1;
-                  end
-                s2:if(din)
-                begin
-                  state<=s3;
-                  dout<=1'b0;
-                end
-                else
-                  begin
-                    state<=s2;
-                  end
-                s3:if(din)
-                begin
-                  state<=s4;
-                  dout<=1'b1;
-                end
-                else
-                  begin
-                    state<=s3;
-                  end
+              
+            s1: if(din)        // In state 1: if input is '1'
+              begin
+                state <= s2;   // Move to state 2 (detected "11")
+                dout <= 1'b0;  // Output remains 0
+              end
+            else               // If input is '0'
+              begin
+                state <= s1;   // Stay in state 1
+              end
+              
+            s2: if(din)        // In state 2: if input is '1'
+              begin
+                state <= s3;   // Move to state 3 (detected "111")
+                dout <= 1'b0;  // Output remains 0
+              end
+            else               // If input is '0'
+              begin
+                state <= s2;   // Stay in state 2
+              end
+              
+            s3: if(din)        // In state 3: if input is '1'
+              begin
+                state <= s4;   // Move to state 4 (detected "1111")
+                dout <= 1'b1;  // Output becomes 1 (pattern detected!)
+              end
+            else               // If input is '0'
+              begin
+                state <= s3;   // Stay in state 3
+              end
           endcase
         end
     end

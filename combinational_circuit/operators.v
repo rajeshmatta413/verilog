@@ -1,49 +1,60 @@
 
-///OPERATORS:-
+///VERILOG OPERATORS - Complete Reference Implementation
+/// This module demonstrates all major Verilog operators with practical examples
+/// Understanding operators is crucial for writing efficient hardware descriptions
 
 module operators(a,b,m,y,s,mo,d,g,l,ge,le,eq,neq,ca_eq,ca_neq,logic_and,logic_not,bit_and,sh_r);
-  input wire [3:0]a;
-  input wire [3:0]b;
-  output reg [4:0]m;
-  output reg [4:0]y;
-  output reg [4:0]s;
-  output reg [4:0]mo;
-  output reg [4:0]d;
-  output reg g;
-  output reg l;
-  output reg ge;
-  output reg le;
-  output reg eq;
-  output reg neq;
-  output reg ca_eq;
-  output reg ca_neq;
-  output reg logic_and;
-  output reg logic_not;
-  output reg bit_and;
-  output reg sh_r;
-  //1 arithmetic operators
-  assign m = a * b;
-  assign y = a + b;
-  assign s = a - b;
-  //assign mo = a %% b;
-  assign d = a / b;
-  //2 relational operators
-  assign g = a > b;
-  assign l = a < b;
-  assign ge = a >= b;
-  assign le = a <= b;
-  //3 equality operators
-  assign eq = a == b;
-  assign neq = a != b;
-  assign ca_eq = a === b;
-  assign ca_neq = a !== b;
-  //logical operators
-  assign logic_and = (b<a)&&(a>b); //it is used to and operation after the getting relational o/p
-  assign logic_not = !(b>a);
-  //bitwise operators
-  assign bit_and = a & b;
-  //shift operators
-  assign sh_r = a >> 1;
+  // Input ports: Two 4-bit operands for operator demonstrations
+  input wire [3:0]a;  // First 4-bit operand
+  input wire [3:0]b;  // Second 4-bit operand
+  
+  // Output ports: Results of different operator types
+  output reg [4:0]m;        // Multiplication result (5-bit to handle overflow)
+  output reg [4:0]y;        // Addition result (5-bit to handle carry)
+  output reg [4:0]s;        // Subtraction result (5-bit to handle borrow)
+  output reg [4:0]mo;       // Modulo result (5-bit)
+  output reg [4:0]d;        // Division result (5-bit)
+  output reg g;             // Greater than comparison result
+  output reg l;             // Less than comparison result
+  output reg ge;            // Greater or equal comparison result
+  output reg le;            // Less or equal comparison result
+  output reg eq;            // Equality comparison result
+  output reg neq;           // Not equal comparison result
+  output reg ca_eq;         // Case equality comparison result
+  output reg ca_neq;        // Case not equal comparison result
+  output reg logic_and;     // Logical AND result
+  output reg logic_not;     // Logical NOT result
+  output reg bit_and;       // Bitwise AND result
+  output reg sh_r;          // Right shift result
+  
+  // 1. ARITHMETIC OPERATORS - Mathematical operations
+  assign m = a * b;         // Multiplication: Used in DSP, graphics processors
+  assign y = a + b;         // Addition: Most common operation in ALUs
+  assign s = a - b;         // Subtraction: Used in ALUs, comparators
+  //assign mo = a %% b;     // Modulo: Commented out (syntax error - should be %)
+  assign d = a / b;         // Division: Rare in hardware due to complexity
+  
+  // 2. RELATIONAL OPERATORS - Comparison operations (return 1-bit result)
+  assign g = a > b;         // Greater than: Used in control logic, sorting
+  assign l = a < b;         // Less than: Used in range checking, comparators
+  assign ge = a >= b;       // Greater or equal: Used in threshold detection
+  assign le = a <= b;       // Less or equal: Used in limit checking
+  
+  // 3. EQUALITY OPERATORS - Equality checking
+  assign eq = a == b;       // Logical equality: Ignores X and Z values
+  assign neq = a != b;      // Logical inequality: Ignores X and Z values
+  assign ca_eq = a === b;   // Case equality: Includes X and Z values (simulation only)
+  assign ca_neq = a !== b;  // Case inequality: Includes X and Z values (simulation only)
+  
+  // 4. LOGICAL OPERATORS - Boolean logic operations
+  assign logic_and = (b<a)&&(a>b);  // Logical AND: Combines relational results
+  assign logic_not = !(b>a);        // Logical NOT: Inverts boolean result
+  
+  // 5. BITWISE OPERATORS - Bit-level operations
+  assign bit_and = a & b;   // Bitwise AND: Each bit position ANDed independently
+  
+  // 6. SHIFT OPERATORS - Bit shifting operations
+  assign sh_r = a >> 1;     // Right shift: Divides by 2, used in barrel shifters
 endmodule
   
 

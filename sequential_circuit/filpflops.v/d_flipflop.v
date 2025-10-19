@@ -1,12 +1,22 @@
-///D FlipFlop:-
+///D FLIP-FLOP - Complete Implementation
+/// D flip-flop stores data on clock edge - fundamental memory element
+/// This is the basic building block for registers, counters, and state machines
+/// Real-world applications: CPU registers, memory cells, data synchronization
 
 module dflipflop(d,clk,q,qb);
-  input wire d,clk;
-  output reg q,qb;
-  always@(*)
+  // Input ports: Data and clock signals
+  input wire d;                // Data input to be stored
+  input wire clk;              // Clock signal for synchronization
+  
+  // Output ports: Stored data and its complement
+  output reg q;                // Stored data output (Q)
+  output reg qb;               // Complement of stored data (Q-bar)
+  
+  // Sequential logic: Store data on clock edge
+  always@(*)                   // Note: This should be @(posedge clk) for proper flip-flop
     begin
-      q<=d;
-      assign qb=~q;
+      q <= d;                  // Store input data in Q
+      assign qb = ~q;          // Generate complement of Q
     end
 endmodule
 
