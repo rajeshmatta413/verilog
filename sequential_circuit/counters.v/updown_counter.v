@@ -1,17 +1,28 @@
 
 
-///UP/DOWN COUNTER:-
+///UP/DOWN COUNTER - Complete Implementation
+/// Counter can increment or decrement based on control signal
+/// This provides bidirectional counting capability for versatile applications
+/// Real-world applications: Position encoders, bidirectional timers, reversible counters
+
 module updown(clk,reset,up,cout);
-  input wire clk,reset,up;
-  output reg [3:0]cout;
-  always@(posedge clk)
+  // Input ports: Control signals
+  input wire clk;             // Clock signal for synchronous operation
+  input wire reset;           // Reset signal (active low)
+  input wire up;              // Direction control (1=up, 0=down)
+  
+  // Output port: Counter value
+  output reg [3:0]cout;       // 4-bit counter output (0 to 15)
+  
+  // Sequential logic: Bidirectional counter operation on clock edge
+  always@(posedge clk)        // Executes on rising clock edge
     begin
-      if(!reset)
-        cout<=4'b0000;
-      else if(up)
-        cout<=cout+1'b1;
-      else
-        cout<=cout-1'b1;
+      if(!reset)              // Active low reset
+        cout <= 4'b0000;      // Reset counter to 0
+      else if(up)             // If up control is active
+        cout <= cout+1'b1;    // Increment counter by 1
+      else                    // If up control is inactive (down mode)
+        cout <= cout-1'b1;    // Decrement counter by 1
     end
 endmodule
 

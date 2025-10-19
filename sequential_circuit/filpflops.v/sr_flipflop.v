@@ -1,25 +1,37 @@
-///SR FLIPFLOP:-
+///SR FLIP-FLOP - Complete Implementation
+/// SR flip-flop has two inputs (S, R) for set and reset operations
+/// S=1, R=0: Set output to 1; S=0, R=1: Set output to 0; S=R=0: Hold; S=R=1: Invalid
+/// Real-world applications: Basic memory elements, control circuits, state storage
 
 module sr_flipflop(s,r,clk,reset,q,qb);
-  input wire s,r,clk,reset;
-  output reg q,qb;
-  always@(*)
+  // Input ports: Control and clock signals
+  input wire s;               // S input (set control)
+  input wire r;               // R input (reset control)
+  input wire clk;             // Clock signal for synchronization
+  input wire reset;           // Reset signal (active high)
+  
+  // Output ports: Stored data and its complement
+  output reg q;               // Stored data output (Q)
+  output reg qb;              // Complement of stored data (Q-bar)
+  
+  // Sequential logic: SR flip-flop operation on clock edge
+  always@(posedge clk)        // Executes on rising clock edge
     begin
-      if(reset)
+      if(reset)               // Active high reset
         begin
-      q<=0;
-    end
-      else
+          q <= 1'b0;          // Reset Q to 0
+        end
+      else                    // Normal operation
         begin
-          case({s,r})
-            2'b00:q=q;
-            2'b01:q=0;
-            2'b10:q=1;
-            2'b11:q=1'bx;
-    endcase
-  end
-      assign qb=~q;
+          case({s,r})         // Check S and R inputs
+            2'b00: q <= q;    // S=0, R=0: Hold current state
+            2'b01: q <= 1'b0; // S=0, R=1: Reset to 0
+            2'b10: q <= 1'b1; // S=1, R=0: Set to 1
+            2'b11: q <= 1'bx; // S=1, R=1: Invalid state (undefined)
+          endcase
+        end
     end
+  assign qb = ~q;             // Q-bar is always complement of Q
 endmodule
 
 ///TESTBENCH:-

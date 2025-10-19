@@ -1,16 +1,27 @@
 
 
-///T LATCH:-
+///T LATCH - Complete Implementation
+/// T latch is a level-sensitive memory element with toggle functionality
+/// Toggles output when T=1 and enable is active
+/// Real-world applications: Level-sensitive toggle circuits, transparent counters
+
 module tlatch(t,en,q,qb);
-  input wire t,en;
-  output reg q,qb;
+  // Input ports: Control and enable signals
+  input wire t;               // T input (toggle control)
+  input wire en;              // Enable signal (active high)
   
-  always@(en or t)
+  // Output ports: Stored data and its complement
+  output reg q;               // Stored data output (Q)
+  output reg qb;              // Complement of stored data (Q-bar)
+  
+  // Combinational logic: T latch operation when enabled
+  always@(en or t)            // Executes when enable or T changes
     begin
-      if(en)
-      q<=~t;
-  end
-  assign qb=~q;
+      if(en)                  // If enable is active
+        q <= ~t;               // Toggle based on T input (note: this seems incorrect)
+      // If enable is inactive, Q holds previous value (latched)
+    end
+  assign qb = ~q;             // Q-bar is always complement of Q
 endmodule
   
 

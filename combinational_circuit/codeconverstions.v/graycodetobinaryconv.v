@@ -1,14 +1,22 @@
-///GRAY TO BINARY CODE CONVERSION:-
+///GRAY TO BINARY CODE CONVERSION - Complete Implementation
+/// Converts Gray code back to standard binary representation
+/// Gray code is decoded by XORing each bit with all more significant bits
+/// Real-world applications: Decoding rotary encoder positions, digital communication
+
 module gtob(g,b);
-  input wire [3:0]g;
-  output reg [3:0]b;
+  // Input port: 4-bit Gray code to be converted
+  input wire [3:0]g;          // Gray code input (g[3] is MSB, g[0] is LSB)
   
-  always@(*)
+  // Output port: 4-bit binary equivalent
+  output reg [3:0]b;          // Binary output (b[3] is MSB, b[0] is LSB)
+  
+  // Combinational logic: Convert Gray code to binary using cascaded XOR operations
+  always@(*)                  // Executes whenever input changes
     begin
-      b[0]=g[0];
-      b[1]=b[0]^g[1];
-      b[2]=b[1]^g[2];
-      b[3]=b[2]^g[3];
+      b[0] = g[0];            // LSB remains unchanged (same as Gray code)
+      b[1] = b[0]^g[1];       // XOR previous binary bit with current Gray bit
+      b[2] = b[1]^g[2];       // XOR previous binary bit with current Gray bit
+      b[3] = b[2]^g[3];       // XOR previous binary bit with current Gray bit
     end
 endmodule
 

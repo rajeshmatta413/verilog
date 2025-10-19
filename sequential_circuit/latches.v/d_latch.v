@@ -1,17 +1,27 @@
 
 
-///D LATCH:-
+///D LATCH - Complete Implementation
+/// D latch is a level-sensitive memory element (transparent when enabled)
+/// Unlike flip-flops, latches are transparent during enable period
+/// Real-world applications: Data capture, temporary storage, transparent registers
 
 module dlatch(d,en,q,qb);
-  input wire d,en;
-  output reg q,qb;
+  // Input ports: Data and enable signals
+  input wire d;               // Data input to be stored
+  input wire en;              // Enable signal (active high)
   
-  always@(en or d)
+  // Output ports: Stored data and its complement
+  output reg q;               // Stored data output (Q)
+  output reg qb;              // Complement of stored data (Q-bar)
+  
+  // Combinational logic: Transparent latch operation
+  always@(en or d)            // Executes when enable or data changes
     begin
-      if(en)
-      q<=d;
-  end
-  assign qb=~q;
+      if(en)                  // If enable is active
+        q <= d;               // Data passes through (transparent)
+      // If enable is inactive, Q holds previous value (latched)
+    end
+  assign qb = ~q;             // Q-bar is always complement of Q
 endmodule
 
 

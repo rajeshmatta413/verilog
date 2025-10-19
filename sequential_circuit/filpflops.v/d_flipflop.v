@@ -13,11 +13,11 @@ module dflipflop(d,clk,q,qb);
   output reg qb;               // Complement of stored data (Q-bar)
   
   // Sequential logic: Store data on clock edge
-  always@(*)                   // Note: This should be @(posedge clk) for proper flip-flop
+  always@(posedge clk)         // Executes on rising clock edge (proper flip-flop behavior)
     begin
       q <= d;                  // Store input data in Q
-      assign qb = ~q;          // Generate complement of Q
     end
+  assign qb = ~q;              // Generate complement of Q (continuous assignment)
 endmodule
 
 ///TESTBENCH:-

@@ -1,20 +1,31 @@
-///SR LATCH:-
+///SR LATCH - Complete Implementation
+/// SR latch is a level-sensitive memory element with set/reset functionality
+/// Provides set, reset, and hold operations when enabled
+/// Real-world applications: Level-sensitive control circuits, transparent SR operations
 
 module srlatch(s,r,en,q,qb);
-  input wire s,r,en;
-  output reg q,qb;
+  // Input ports: Control and enable signals
+  input wire s;               // S input (set control)
+  input wire r;               // R input (reset control)
+  input wire en;              // Enable signal (active high)
   
-  always@(en or s or r)
-      if (en)
+  // Output ports: Stored data and its complement
+  output reg q;               // Stored data output (Q)
+  output reg qb;              // Complement of stored data (Q-bar)
+  
+  // Combinational logic: SR latch operation when enabled
+  always@(en or s or r)       // Executes when enable, S, or R changes
+      if (en)                 // If enable is active
         begin
-          case({s,r})
-              2'b00:q<=q;
-              2'b01:q<=0;
-              2'b10:q<=1;
-              2'b11:q<=1'bx;
+          case({s,r})         // Check S and R inputs
+              2'b00: q <= q;  // S=0, R=0: Hold current state
+              2'b01: q <= 1'b0; // S=0, R=1: Reset to 0
+              2'b10: q <= 1'b1; // S=1, R=0: Set to 1
+              2'b11: q <= 1'bx; // S=1, R=1: Invalid state (undefined)
           endcase
         end
-  assign qb=~q;
+        // If enable is inactive, Q holds previous value (latched)
+  assign qb = ~q;             // Q-bar is always complement of Q
 endmodule
 
 

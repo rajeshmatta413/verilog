@@ -1,20 +1,31 @@
-///JK LATCH:-
+///JK LATCH - Complete Implementation
+/// JK latch is a level-sensitive memory element with JK functionality
+/// Provides set, reset, hold, and toggle operations when enabled
+/// Real-world applications: Level-sensitive control circuits, transparent JK operations
 
 module jklatch(j,k,en,q,qb);
-  input wire j,k,en;
-  output reg q,qb;
+  // Input ports: Control and enable signals
+  input wire j;               // J input (set control)
+  input wire k;               // K input (reset control)
+  input wire en;              // Enable signal (active high)
   
-  always@(en or j or k)
-    if(en)
+  // Output ports: Stored data and its complement
+  output reg q;               // Stored data output (Q)
+  output reg qb;              // Complement of stored data (Q-bar)
+  
+  // Combinational logic: JK latch operation when enabled
+  always@(en or j or k)       // Executes when enable, J, or K changes
+    if(en)                    // If enable is active
       begin
-        case({j,k})
-          2'b00: q<=q;
-          2'b01: q<=0;
-          2'b10: q<=1;
-          2'b11: q<=~q;
+        case({j,k})           // Check J and K inputs
+          2'b00: q <= q;      // J=0, K=0: Hold current state
+          2'b01: q <= 1'b0;  // J=0, K=1: Reset to 0
+          2'b10: q <= 1'b1;  // J=1, K=0: Set to 1
+          2'b11: q <= ~q;    // J=1, K=1: Toggle
         endcase
       end
-  assign qb=~q;
+      // If enable is inactive, Q holds previous value (latched)
+  assign qb = ~q;             // Q-bar is always complement of Q
 endmodule
 
 

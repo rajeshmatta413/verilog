@@ -1,15 +1,22 @@
-///PALAIN DROME CHECKER:-
+///PALINDROME CHECKER - Complete Implementation
+/// Checks if a 4-bit number reads the same forwards and backwards
+/// Palindrome: A sequence that remains unchanged when reversed
+/// Real-world applications: Data validation, error detection, pattern recognition
 
 module pal(a,b);
-  input wire [3:0]a;
-  output reg b;
+  // Input port: 4-bit number to be checked for palindrome property
+  input wire [3:0]a;          // 4-bit input (a[3] is MSB, a[0] is LSB)
   
-  always@(*)
+  // Output port: Palindrome detection result
+  output reg b;               // Output: 1 if palindrome, 0 if not palindrome
+  
+  // Combinational logic: Check if input is palindrome by comparing symmetric bits
+  always@(*)                  // Executes whenever input changes
     begin
-      if(a[0]==a[3] && a[1]==a[2])
-        b=1'b1;
-      else
-        b=1'b0;
+      if(a[0]==a[3] && a[1]==a[2])  // Check if LSB=MSB AND middle bits are equal
+        b = 1'b1;            // Set output to 1 if palindrome detected
+      else                    // If symmetric bits don't match
+        b = 1'b0;            // Set output to 0 (not a palindrome)
     end
 endmodule
 

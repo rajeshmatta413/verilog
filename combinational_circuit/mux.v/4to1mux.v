@@ -1,17 +1,28 @@
-///4TO1MUX:-
+///4 TO 1 MULTIPLEXER - Complete Implementation
+/// Multiplexer selects one of four inputs based on 2-bit select signal
+/// This expands the basic mux concept to handle more inputs
+/// Real-world applications: Data path selection, register file access, signal routing
 
 module mux4to1(a0,a1,a2,a3,sel,y);
-  input wire a0,a1,a2,a3;
-  input wire [1:0]sel;
-  output reg y;
-  always@(*)
+  // Input ports: Four data inputs and select signal
+  input wire a0;              // Data input 0 (selected when sel=00)
+  input wire a1;              // Data input 1 (selected when sel=01)
+  input wire a2;              // Data input 2 (selected when sel=10)
+  input wire a3;              // Data input 3 (selected when sel=11)
+  input wire [1:0]sel;        // Select signal (2-bit control for 4 inputs)
+  
+  // Output port: Selected data
+  output reg y;               // Output: Selected data from one of the four inputs
+  
+  // Combinational logic: Select input based on 2-bit select signal
+  always@(*)                  // Executes whenever inputs change
     begin
-      case({sel})
-        2'b00:y=a0;
-        2'b01:y=a1;
-        2'b10:y=a2;
-        2'b11:y=a3;
-        
+      case({sel})             // Check select signal value
+        2'b00: y = a0;        // When sel=00, output = a0
+        2'b01: y = a1;        // When sel=01, output = a1
+        2'b10: y = a2;        // When sel=10, output = a2
+        2'b11: y = a3;        // When sel=11, output = a3
+        // Default case not needed for 2-bit select
       endcase
     end
 endmodule     
